@@ -1,0 +1,112 @@
+
+                               Comparativa entre C y ensamblador 
+                               ---------------------------------
+
+
+
+                  Lenguaje C                                     Assembler (ejemplos ARM)
+
+  * Tipos: long,short,char,float,double,*(ptr)   |  -> Generalmente existe un tipo entero de
+                                                 |     32 o 64 bits, y los tipos float y double.
+                                                 |     A veces existen tipos no reconocidos en C
+                                                 |     como el de flotante de 80 bits.
+                                                 |     El lenguaje facilita inst. para leer y                                          
+                                                 |     escribir los tipos char y short.              
+                                                 |     Los punteros se suelen tratar como enteros.   
+                                                 |
+  * Variables locales, estaticas y globales      |  -> Registros del procesador o memoria
+    Cantidad ilimitada                           |     Cantidad limitada de registros              
+    Vida limitada a la funcion, o universal      |     Cantidad ilimitada de memoria                
+                                                 |     Vida ilimitida de registros 
+                                                 |                                                  
+    Ej: int i,j,err;                             |     Ej: r0,r1,..hasta r15 (enteros 32 bits)
+        char a,b,c;                              |         s0,s1,..hasta s31 (float)     
+        float x,y;                               |                                                  
+                                                 |     Algunos reg. cumplen funciones especiales                                
+                                                 |     como r15 (pc o program counter) o r14 (lr
+                                                 |     o link register)                                             
+                                                 |                                                  
+  * Operacion "goto"                             |  -> Instrucciones de salto                       
+                                                 |                                                  
+    Ej: goto Destino                             |     Ej: b Destino                   
+                                                 |                                                  
+  * Funciones                                    |  -> No existe el concepto                        
+                                                 |     Se realizan construccion semejantes          
+    int media ( int a, int b)                    |     llamadas "subrutinas".                       
+    {                                            |     Un salto especializado se combina con
+      return (a+b) >> 1;                         |     instrucciones de retorno.                  
+    }                                            |                                                  
+                                                 |     Ej:                                        
+                                                 |          mov r0,r4   ; r0 = r4                   
+                                                 |          mov r1,r5   ; r1 = r5                   
+                                                 |          bl  Media   ; Guardar la direccion de           
+                                                 |                        la prox. inst. en lr                     
+                                                 |          ...         ; El programa continua      
+                                                 |                                                  
+                                                 |          Media:                                  
+                                                 |          add r0,r0,r1      ; r0 = r0+r1                       
+                                                 |          mov r0,r0,asr #1  ; r0 = r0 >> 1                      
+                                                 |          mov pc,lr   ; retornar               
+                                                 |                                                  
+ * Accesos a memoria                             | -> Similares, aunque difieren segun el tipo         
+                                                 |    (char,short,long)                     
+                                                 |                                            
+   Ej:  a=*ptr                                   |    Ej: ldr r0,[r1]       ; ejemplos para long    
+        *ptr=a                                   |        str r0,[r1]                               
+        a=ptr[idx]                               |        ldr r0,[r1,r2,lsl #2] ; idx * 4          
+        ptr[idx]=a                               |        str r0,[r1,r2,lsl #2] ; idx * 4          
+                                                 |                                                  
+                                                 |        ldrb r0,[r1]      ; ej. para unsig. char
+                                                 |        strb r0,[r1]                             
+                                                 |        ldrb r0,[r1,r2]                         
+                                                 |        strb r0,[r1,r2]                           
+                                                 |                                                  
+ * Operaciones aritmeticas y binarias enteras    | -> A diferencia de C, en micros RISC solo se                           
+                                                 |    pueden realizar entre registros, nunca con       
+                                                 |    memoria.                                      
+                                                 |    Algunas operaciones C no existen en asm y
+                                                 |    viceversa. Ejemplos:                                    
+                                                 |     -"/" y "%" no existen en casi ningun ARM                        
+                                                 |     -clz (count leading zeros) no existe en C              
+                                                 |                                                  
+                                                 |                                                  
+  Ej:     a=5                                    |    mov r0,#5                                    
+          a=~b                                   |    mvn r0,r1                                     
+          a=-b                                   |    rsb r0,r1,#0                               
+          a=b+c                                  |    add r0,r1,r2                                  
+          a=b-c                                  |    sub r0,r1,r2                                  
+          a=b*c                                  |    mul r0,r1,r2                                    
+          a=b*c+d                                |    mla r0,r1,r2,r3                                   
+          a=b>>4                                 |    mov r0,r1,asr #4                           
+                                                 |                                                  
+ * Logica y control (if,for,while,&&,||)         | -> Las operaciones de comparacion y salto 
+                                                 |    realizan la funcion equivalente a C.   
+                                                 |    Ademas existe operaciones logicas no       
+                                                 |    disponibles en C como la deteccion de        
+                                                 |    overflows.                               
+                                                 |                                                  
+                                                 |                                                  
+   Ej: if ( a > b)                               |     cmp r0,r1                                    
+        max=a;                                   |     bgt bigger_r0                               
+       else                                      |     mov r2,r1                                    
+        max=b;                                   |     b continue                                   
+                                                 |   bigger_r0:     ; las etiquetas no son inst. 
+                                                 |     mov r2,r0                                   
+                                                 |   continue:      ; por ello no ocupan memoria    
+                                                 |                                                  
+ * Punteros a funcion                            | -> Siempre existen instrucciones en asm para   
+                                                 |    saltar a una direccion contenida en un reg.
+    Ej: (*callback) (a,b)                        |                                                  
+                                                 |    ldr r0,[r1]   ; Cargar un un ptr a subrutina
+                                                 |    bl  r0        ; Saltar a la subrutina
+                                                 |                  ; (con link)                                
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+                                                 |                                                  
+
