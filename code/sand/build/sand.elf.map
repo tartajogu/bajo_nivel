@@ -422,27 +422,27 @@ Linker script and memory map
  .debug_abbrev  0x00000000000001f6      0x1ee C:/devkitPro/libgba/lib\libgba.a(interrupt.o)
  .debug_abbrev  0x00000000000003e4       0x14 C:/devkitPro/libgba/lib\libgba.a(InterruptDispatcher.o)
 
-.debug_line     0x0000000000000000      0x8dc
+.debug_line     0x0000000000000000      0x8d4
  *(.debug_line)
- .debug_line    0x0000000000000000      0x20e main.o
- .debug_line    0x000000000000020e       0x6e pic.o
- .debug_line    0x000000000000027c      0x5ae C:/devkitPro/libgba/lib\libgba.a(interrupt.o)
- .debug_line    0x000000000000082a       0xb2 C:/devkitPro/libgba/lib\libgba.a(InterruptDispatcher.o)
+ .debug_line    0x0000000000000000      0x20a main.o
+ .debug_line    0x000000000000020a       0x6a pic.o
+ .debug_line    0x0000000000000274      0x5ae C:/devkitPro/libgba/lib\libgba.a(interrupt.o)
+ .debug_line    0x0000000000000822       0xb2 C:/devkitPro/libgba/lib\libgba.a(InterruptDispatcher.o)
 
 .debug_frame    0x0000000000000000       0xdc
  *(.debug_frame)
  .debug_frame   0x0000000000000000       0x2c main.o
  .debug_frame   0x000000000000002c       0xb0 C:/devkitPro/libgba/lib\libgba.a(interrupt.o)
 
-.debug_str      0x0000000000000000      0x50d
+.debug_str      0x0000000000000000      0x501
  *(.debug_str)
- .debug_str     0x0000000000000000      0x2a3 main.o
-                                        0x2ec (size before relaxing)
- .debug_str     0x00000000000002a3       0x4e pic.o
-                                        0x11f (size before relaxing)
- .debug_str     0x00000000000002f1      0x1bc C:/devkitPro/libgba/lib\libgba.a(interrupt.o)
+ .debug_str     0x0000000000000000      0x29b main.o
+                                        0x2e4 (size before relaxing)
+ .debug_str     0x000000000000029b       0x4a pic.o
+                                        0x117 (size before relaxing)
+ .debug_str     0x00000000000002e5      0x1bc C:/devkitPro/libgba/lib\libgba.a(interrupt.o)
                                         0x310 (size before relaxing)
- .debug_str     0x00000000000004ad       0x60 C:/devkitPro/libgba/lib\libgba.a(InterruptDispatcher.o)
+ .debug_str     0x00000000000004a1       0x60 C:/devkitPro/libgba/lib\libgba.a(InterruptDispatcher.o)
                                          0xa0 (size before relaxing)
 
 .debug_loc      0x0000000000000000      0x472
@@ -519,7 +519,7 @@ LOAD c:/devkitpro/devkitarm/bin/../lib/gcc/arm-none-eabi/10.2.0/../../../../arm-
 END GROUP
 LOAD c:/devkitpro/devkitarm/bin/../lib/gcc/arm-none-eabi/10.2.0/crtend.o
 LOAD c:/devkitpro/devkitarm/bin/../lib/gcc/arm-none-eabi/10.2.0/crtn.o
-OUTPUT(C:/Users/Usuario/Documents/ESAT/ProBaj/curso_lowlevel1/code/sand/sand.elf elf32-littlearm)
+OUTPUT(C:/Users/Usuario/Documents/ESAT/BajNiv/_git_bajniv/code/sand/sand.elf elf32-littlearm)
 LOAD linker stubs
 
 .debug_ranges   0x0000000000000000       0x80
