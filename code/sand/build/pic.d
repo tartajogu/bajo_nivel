@@ -1,2 +1,2 @@
 pic.o: \
- C\:/Users/Usuario/Documents/ESAT/BajNiv/_git_bajniv/code/sand/source/pic.c
+ C\:/Users/Propietario/Documents/ESAT/BajNiv/_git_bajniv/code/sand/source/pic.c
