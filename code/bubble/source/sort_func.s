@@ -1,8 +1,8 @@
 
 .globl SortArray
 
-@ static void SortArray (signed char *array, int len)
-@ signed char *array - r0
+@ static void SortArray (int *array, int len)
+@ int *array - r0
 @ int len - r1
 
 SortArray:
@@ -19,18 +19,21 @@ for_loop:
   cmp   r3,r7
   bge   for_done
 
-  ldrsb r4,[r0,r3]    @ t0 = array[i]
+  ldr r4,[r0,r3,lsl #2]    @ t0 = array[i]
   add   r6,r3,#1      @ i + 1
-  ldrsb r5,[r0,r6]    @ t1 = array[i+1]
+  ldr r5,[r0,r6,lsl #2]    @ t1 = array[i+1]
+
+@Ejemplo de predicación
+@Primero hace la comparacion ->31 cmp r4,r5
+@Esto hace que todas las instrucciones condicionales posteriores comprueben esos valores
+@Es decir, la inst cond ->33 strGT, esta haciendo que el str solo se ejecute si se cumple GT
 
   cmp   r4,r5
-  blt   skip_swap
 
-  strb  r5,[r0,r3]    @ array[i] = t1
-  strb  r4,[r0,r6]    @ array[i+1] = t0
-  mov   r2,#0         @ ordered = 0
+  strgt  r5,[r0,r3,lsl #2]    @ array[i] = t1
+  strgt  r4,[r0,r6,lsl #2]    @ array[i+1] = t0
+  movgt   r2,#0         @ ordered = 0
 
-skip_swap:
   add   r3,r3,#1   @ i++
   b     for_loop
 
